@@ -1,5 +1,8 @@
+// Buffer polyfill MUST be first
 import { Buffer } from 'buffer'
-window.Buffer = Buffer
+if (typeof window !== 'undefined') {
+  window.Buffer = Buffer
+}
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
