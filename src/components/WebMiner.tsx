@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import { useMiner } from '../hooks/useMiner'
+import { useMiner } from '../hooks/useMiner-simple'
 import { X1_EXPLORER_URL, MINER_IDS } from '../constants'
 import { FiZap, FiSquare, FiCpu, FiActivity, FiHash, FiStar, FiSend, FiCheckCircle, FiXCircle } from 'react-icons/fi'
 
