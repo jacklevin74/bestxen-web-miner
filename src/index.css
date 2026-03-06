@@ -1,0 +1,47 @@
+/* ── Reset & base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0a0c10;
+  --bg2:       #0f1117;
+  --bg3:       #161b22;
+  --card:      #161b22;
+  --border:    #21262d;
+  --accent:    #00c3ff;
+  --accent2:   #7b61ff;
+  --green:     #3fb950;
+  --yellow:    #d29922;
+  --red:       #f85149;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --radius:    10px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+body { background: var(--bg); min-height: 100vh; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: 'Fira Code', 'Courier New', monospace; background: var(--bg3); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: var(--accent); }
+pre { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: 0.82em; }
+
+/* ── Wallet adapter overrides ─────────────────────────────────────── */
+.wallet-adapter-button {
+  background: var(--accent) !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  height: 40px !important;
+  font-size: 0.9rem !important;
+}
+.wallet-adapter-modal-wrapper { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 16px !important; }
+.wallet-adapter-modal-title { color: var(--text) !important; }
+.wallet-adapter-modal-list li { background: var(--bg3) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; }
+
+/* ── Scrollbar ────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
