@@ -1,5 +1,6 @@
 import { BestXenWalletProvider } from './WalletProvider'
 import { useChainStats } from './hooks/useChainStats'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import NavBar from './components/NavBar'
 import Hero from './components/Hero'
 import StatsBar from './components/StatsBar'
@@ -25,6 +26,14 @@ const globalStyle = `
   html { scroll-behavior: smooth; }
 `
 
+function SafeWebMiner() {
+  return (
+    <ErrorBoundary>
+      <WebMiner />
+    </ErrorBoundary>
+  )
+}
+
 function Inner() {
   const stats = useChainStats()
   return (
@@ -33,7 +42,7 @@ function Inner() {
       <Hero />
       <StatsBar stats={stats} />
       <Dashboard />
-      <WebMiner />
+      <SafeWebMiner />
       <MintPanel />
       <Leaderboard />
       <HowToMine />
