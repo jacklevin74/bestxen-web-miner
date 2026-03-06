@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js'
 import { X1_RPC, MINER_IDS } from '../constants'
+import { createInlineMinerWorker } from '../worker/miner-worker-inline'
 
 // Dummy ETH address (all zeros with valid checksum format)
 const DUMMY_ETH_ADDR = '0x0000000000000000000000000000000000000000'
@@ -177,19 +178,14 @@ export function useMiner(
       return
     }
     
-    let worker: Worker | null = null
+    // Use inline worker to avoid bundling issues
+    const worker = createInlineMinerWorker()
     
-    try {
-      worker = new Worker(
-        new URL('../worker/miner-worker.ts', import.meta.url),
-        { type: 'module' }
-      )
-    } catch (e) {
-      console.error('[useMiner] Failed to create worker:', e)
+    if (!worker) {
       setStats(s => ({ 
         ...s, 
         status: 'error', 
-        error: 'Web Worker not supported. Use CLI miner instead.' 
+        error: 'Web Worker not supported in this browser' 
       }))
       return
     }
