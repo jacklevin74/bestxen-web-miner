@@ -171,10 +171,28 @@ export function useMiner(
 
   // Initialize worker
   useEffect(() => {
-    const worker = new Worker(
-      new URL('../worker/miner-worker.ts', import.meta.url),
-      { type: 'module' }
-    )
+    // Skip worker in SSR/build time
+    if (typeof window === 'undefined') {
+      setStats(s => ({ ...s, status: 'ready' }))
+      return
+    }
+    
+    let worker: Worker | null = null
+    
+    try {
+      worker = new Worker(
+        new URL('../worker/miner-worker.ts', import.meta.url),
+        { type: 'module' }
+      )
+    } catch (e) {
+      console.error('[useMiner] Failed to create worker:', e)
+      setStats(s => ({ 
+        ...s, 
+        status: 'error', 
+        error: 'Web Worker not supported. Use CLI miner instead.' 
+      }))
+      return
+    }
 
     worker.onmessage = (e) => {
       const msg = e.data
@@ -205,7 +223,7 @@ export function useMiner(
       }
     }
 
-    worker.onerror = (e) => {
+    worker.onerror = (e: ErrorEvent) => {
       console.error('[useMiner] Worker error:', e)
       setStats(s => ({ ...s, status: 'error', error: e.message || 'Worker error' }))
     }
@@ -214,7 +232,7 @@ export function useMiner(
     setStats(s => ({ ...s, status: 'loading' }))
 
     return () => {
-      worker.terminate()
+      worker?.terminate()
       workerRef.current = null
     }
   }, [submitMineHashesTx])
